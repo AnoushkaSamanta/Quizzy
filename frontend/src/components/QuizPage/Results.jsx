@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function Results({ quizData, questions, userAnswers, onRestartQuiz }) {
   const [quizAnswers, setQuizAnswers] = useState(
     new Array(questions.length).fill(null)
@@ -8,6 +11,30 @@ function Results({ quizData, questions, userAnswers, onRestartQuiz }) {
   const [correctAnswers, setCorrectAnswers] = useState(
     new Array(questions.length).fill(null)
   );
+
+  const triggerToaster = (score) => {
+    let message = "";
+    if (score >= 80) {
+      message = "Excellent!";
+    } else if (score >= 60) {
+      message = "Good!";
+    } else if (score >= 40) {
+      message = "Can do better!";
+    } else {
+      message = "Needs Improvement!";
+    }
+
+    toast(message, {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
   const [stats, setStats] = useState({
     correct: 0,
     incorrect: 0,
@@ -43,6 +70,11 @@ function Results({ quizData, questions, userAnswers, onRestartQuiz }) {
     setQuizAnswers(newQuizAnswers);
     setStats({ correct, incorrect, unattempted });
     setCorrectAnswers(newCorrectAnswers);
+
+    const finalScore =
+      correct * quizData.correct_answer_marks -
+      incorrect * quizData.negative_marks;
+    triggerToaster(finalScore);
   }, [questions, userAnswers]);
 
   const getQuestionStatus = (index) => {
@@ -53,7 +85,9 @@ function Results({ quizData, questions, userAnswers, onRestartQuiz }) {
   const renderDetailedReview = () => {
     return (
       <div className="mt-8 space-y-4">
-        <h3 className="text-xl font-semibold mb-4 text-cyan-400">Quiz Detailed Review</h3>
+        <h3 className="text-xl font-semibold mb-4 text-cyan-400">
+          Quiz Detailed Review
+        </h3>
         {questions.map((question, index) => {
           const status = getQuestionStatus(index);
           const correctAns = question.options.findIndex(
@@ -112,19 +146,26 @@ function Results({ quizData, questions, userAnswers, onRestartQuiz }) {
               {/* Detailed Solution Section */}
               {question.detailed_solution && (
                 <div className="bg-gray-100 p-3 rounded-lg text-sm">
-                  <strong className="block mb-2 text-gray-700">Detailed Solution:</strong>
+                  <strong className="block mb-2 text-gray-700">
+                    Detailed Solution:
+                  </strong>
                   <div className="whitespace-pre-wrap text-gray-600">
-                  {question.detailed_solution && (
-  <div className="bg-gray-100 p-3 rounded-lg text-sm">
-    <strong className="block mb-2">Detailed Solution:</strong>
-    <div 
-      className="whitespace-pre-wrap"
-      dangerouslySetInnerHTML={{
-        __html: question.detailed_solution.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
-      }}
-    />
-  </div>
-)}
+                    {question.detailed_solution && (
+                      <div className="bg-gray-100 p-3 rounded-lg text-sm">
+                        <strong className="block mb-2">
+                          Detailed Solution:
+                        </strong>
+                        <div
+                          className="whitespace-pre-wrap"
+                          dangerouslySetInnerHTML={{
+                            __html: question.detailed_solution.replace(
+                              /\*\*(.*?)\*\*/g,
+                              "<b>$1</b>"
+                            ),
+                          }}
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
@@ -151,18 +192,26 @@ function Results({ quizData, questions, userAnswers, onRestartQuiz }) {
 
           {/* Results Summary */}
           <div className="mb-8">
-            <h2 className="text-2xl font-semibold mb-6 text-cyan-400">Quiz Results</h2>
+            <h2 className="text-2xl font-semibold mb-6 text-cyan-400">
+              Quiz Results
+            </h2>
             <div className="grid grid-cols-3 gap-4 text-center">
               <div className="bg-green-100 p-4 rounded-lg">
-                <p className="text-green-600 text-xl font-semibold">{stats.correct}</p>
+                <p className="text-green-600 text-xl font-semibold">
+                  {stats.correct}
+                </p>
                 <p className="text-green-600">Correct</p>
               </div>
               <div className="bg-red-100 p-4 rounded-lg">
-                <p className="text-red-600 text-xl font-semibold">{stats.incorrect}</p>
+                <p className="text-red-600 text-xl font-semibold">
+                  {stats.incorrect}
+                </p>
                 <p className="text-red-600">Incorrect</p>
               </div>
               <div className="bg-gray-100 p-4 rounded-lg">
-                <p className="text-gray-600 text-xl font-semibold">{stats.unattempted}</p>
+                <p className="text-gray-600 text-xl font-semibold">
+                  {stats.unattempted}
+                </p>
                 <p className="text-gray-600">Unattempted</p>
               </div>
             </div>
@@ -174,7 +223,8 @@ function Results({ quizData, questions, userAnswers, onRestartQuiz }) {
                 /{questions.length * quizData.correct_answer_marks}
               </p>
               <p className="text-sm text-gray-400 mt-2">
-                Correct: +{quizData.correct_answer_marks} | Incorrect: -{quizData.negative_marks}
+                Correct: +{quizData.correct_answer_marks} | Incorrect: -
+                {quizData.negative_marks}
               </p>
             </div>
           </div>
