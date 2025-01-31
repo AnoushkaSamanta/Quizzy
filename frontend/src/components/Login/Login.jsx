@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from "axios"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import the CSS
+
 function Login() {
   const[email,setEmail]=useState()
   const[password,setPassword]=useState()
@@ -16,10 +19,13 @@ function Login() {
       console.log(result)
       if(result.data.message==="Success")
       {
+        toast.success("Login successful!"); 
         navigate("/home")
       }
     })
-    .catch(error=>console.log(error))
+    .catch(error=>{console.log(error)
+      toast.error("Login failed! Please check your credentials.");
+    })
    
       }
   return (
@@ -56,6 +62,7 @@ function Login() {
           </div>
         </div>
       </div>
+
     </>
   );
 }

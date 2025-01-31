@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify"; // Import toast
+import "react-toastify/dist/ReactToastify.css";
 function SignUp() {
   const [fullname, setFullName] = useState();
   const [email, setEmail] = useState();
@@ -12,10 +14,12 @@ function SignUp() {
     axios
       .post("http://localhost:3000/signup", { fullname, email, password })
       .then((result) => {
-        console.log(result)
+        toast.success("Account created successfully!");
         navigate("/home");
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {console.log(error)
+        toast.error("Signup failed. Please try again.");
+      });
 
     
   };
