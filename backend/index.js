@@ -37,6 +37,7 @@ app.post("/signup", (req, res) => {
               maxAge: 24 * 60 * 60 * 1000, // 24 hours
               path: '/' // Ensure cookie is set for entire site
           });
+          
             res.json(users);
           })
           .catch((err) => res.json(err));
@@ -50,22 +51,39 @@ app.post("/signup", (req, res) => {
       if (user) {
         bcrypt.compare(password, user.password, function (err, result) {
           if (result) {
-            let token = jwt.sign({ email: email }, "SECRET_KEY");
+            // Add expiration to token
+            let token = jwt.sign(
+              { email: email }, 
+              "SECRET_KEY", 
+              { expiresIn: '24h' }
+            );
+            
+            // More specific cookie settings
             res.cookie("token", token, {
               httpOnly: true,
-              secure: false, // Set to true in production
-              sameSite: 'strict', // or 'lax'
+              secure: process.env.NODE_ENV === "production", // Secure in production
+              sameSite: 'lax', // More compatible across browsers
               maxAge: 24 * 60 * 60 * 1000, // 24 hours
-              path: '/' // Ensure cookie is set for entire site
-          });
-            res.json("Success");
+              path: '/'
+            });
+            
+            // Send structured response
+            res.json({ 
+              message: "Success", 
+              user: { 
+                email: user.email, 
+                fullname: user.fullname 
+              }
+            });
           } else {
-            res.json("Incorrect Email or Password");
+            res.status(401).json({ message: "Incorrect Email or Password" });
           }
         });
       } else {
-        res.json("User doesn't exist");
+        res.status(404).json({ message: "User doesn't exist" });
       }
+    }).catch(error => {
+      res.status(500).json({ message: "Server error", error: error });
     });
   });
 
@@ -86,19 +104,22 @@ app.post("/signup", (req, res) => {
     res.json({ success: true, message: "Logged out successfully" });
   });
 
-  app.get("/user", verifyToken, (req, res) => {
-    const emailFromToken = req.user.email; // Access the decoded email from token
-    console.log(emailFromToken)
-    UserModel.findOne({ email: emailFromToken })
-      .then((user) => {
-        if (user) {
-          res.json(user); // Send user data to frontend
-        } else {
-          res.status(404).json({ message: "User not found" });
-        }
-      })
-      .catch((err) => res.status(500).json(err));
-  });
+
+  // Add this to your index.js
+app.get("/user-data", verifyToken, (req, res) => {
+  UserModel.findOne({ email: req.user.email })
+    .then(user => {
+      if (user) {
+        res.json({ 
+          email: user.email, 
+          fullname: user.fullname 
+        });
+      } else {
+        res.status(404).json({ message: "User not found" });
+      }
+    })
+    .catch(err => res.status(500).json({ message: "Server error" }));
+});
 
 app.listen(3000,()=>{
     console.log("Server running");

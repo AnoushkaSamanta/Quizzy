@@ -1,60 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import Header from '../Header/Header';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Header from "../Header/Header";
 
 function Account() {
-  const [user, setUser] = useState(null); // Store user data
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch user details when the component is mounted
     axios
-      .get('http://localhost:3000/user', { withCredentials: true })
+      .get("http://localhost:3000/user-data", { withCredentials: true })
       .then((response) => {
-        if (response.data) {
-          setUser(response.data);
-        } else {
-          navigate('/login'); // Redirect to login if user is not authenticated
-        }
+        setUserData(response.data);
+        setLoading(false);
       })
-      .catch(() => navigate('/login')); // Redirect to login if any error occurs
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+        navigate("/login");
+      });
   }, [navigate]);
 
-  const handleLogout = () => {
-    axios
-      .post('http://localhost:3000/logout', {}, { withCredentials: true })
-      .then(() => {
-        navigate('/login'); // Navigate to login after logout
-      })
-      .catch((err) => console.error(err));
-  };
+  if (loading) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-[#0A192F] text-white">
+        <div className="text-lg font-semibold animate-pulse">Loading your account...</div>
+      </div>
+    );
+  }
 
   return (
-    <div>
+    <>
       <Header />
-      <div className="flex items-center justify-center h-screen">
-        <div className="w-1/2 px-32">
-          <h3 className="text-4xl mb-3">Account Page</h3>
-          {user ? (
-            <div>
-              <h4 className="text-2xl mb-5">Welcome, {user.fullname}</h4>
-              <p className="text-lg">Email: {user.email}</p>
-              <div className="mt-5">
-                <button
-                  className="bg-red-500 text-white py-2 px-4 rounded"
-                  onClick={handleLogout}
-                >
-                  Logout
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div>Loading...</div>
-          )}
+      <div className="min-h-screen bg-[#0A192F] text-white flex flex-col items-center pt-20">
+        <div className="bg-[#112240] p-8 rounded-lg shadow-lg w-96 text-center">
+          <h1 className="text-2xl font-bold text-cyan-400">Welcome, {userData.fullname}</h1>
+          <p className="mt-2 text-gray-300">Email: {userData.email}</p>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

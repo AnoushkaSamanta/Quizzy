@@ -5,7 +5,7 @@ import QuestionContainer from './QuestionContainer'
 function QuizPage() {
   return (
     <div>
-        <Header/>
+      
          <QuestionContainer/>
     </div>
   )

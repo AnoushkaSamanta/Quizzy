@@ -1,46 +1,63 @@
-import React from 'react'
-import axios from "axios"
-import { NavLink, useNavigate } from 'react-router-dom';
+import React from "react";
+import axios from "axios";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function Header() {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
+
   const handleLogout = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/logout", {}, {
-        withCredentials: true
-      });
-      
+      const response = await axios.post("http://localhost:3000/logout", {}, { withCredentials: true });
+
       if (response.data.success) {
-       navigate("/")
+        navigate("/");
       }
     } catch (error) {
       console.error("Logout failed:", error);
     }
-  }
+  };
+
   return (
-    <div>
-      <nav className="w-full flex justify-between px-5 py-3">
-        <h3 className="text-2xl text-blue-400 font-semibold">Quizzy</h3>
-        <div className="flex gap-5">
-        <NavLink to="/home" className="text-zinc-600 font-semibold">
+    <header className="w-full px-6 py-4 bg-[#0A192F] shadow-md">
+      <nav className="max-w-6xl mx-auto flex justify-between items-center">
+        {/* Logo */}
+        <h3 className="text-3xl font-bold text-cyan-400 tracking-wide">Quizzy</h3>
+
+        {/* Navigation Links */}
+        <div className="flex items-center gap-6">
+          <NavLink 
+            to="/home" 
+            className="text-gray-300 hover:text-cyan-400 font-medium"
+          >
             Home
           </NavLink>
-          <NavLink to="/account" className="text-zinc-600 font-semibold">
+          <NavLink 
+            to="/account" 
+            className="text-gray-300 hover:text-cyan-400  font-medium"
+          >
             My Account
           </NavLink>
-          <NavLink to="/about" className="text-zinc-600 font-semibold">
+          <NavLink 
+            to="/about" 
+            className="text-gray-300 hover:text-cyan-400  font-medium"
+          >
             About Us
           </NavLink>
-          <div className="px-2 py-1 bg-red-500 rounded-md" style={{cursor:"pointer"}} onClick={handleLogout}>
-  <span className="text-white">Logout</span>
-</div>
 
+          <button 
+            onClick={handleLogout} 
+            className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md 
+                      hover:bg-red-600 "
+          >
+            Logout
+          </button>
         </div>
       </nav>
 
-      <div className="bg-black h-[2px] w-[1500px] rounded-full ml-3"></div>
-    </div>
-  )
+      {/* Subtle Divider */}
+      <div className="mt-3 w-full h-[2px] bg-gradient-to-r from-cyan-500 via-blue-500 to-cyan-500 opacity-50"></div>
+    </header>
+  );
 }
 
-export default Header
+export default Header;

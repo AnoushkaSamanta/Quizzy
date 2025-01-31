@@ -53,7 +53,7 @@ function Results({ quizData, questions, userAnswers, onRestartQuiz }) {
   const renderDetailedReview = () => {
     return (
       <div className="mt-8 space-y-4">
-        <h3 className="text-xl font-semibold mb-4">Quiz Detailed Review</h3>
+        <h3 className="text-xl font-semibold mb-4 text-cyan-400">Quiz Detailed Review</h3>
         {questions.map((question, index) => {
           const status = getQuestionStatus(index);
           const correctAns = question.options.findIndex(
@@ -71,7 +71,7 @@ function Results({ quizData, questions, userAnswers, onRestartQuiz }) {
                   : "bg-gray-50 border-gray-200"
               }`}
             >
-              <div className="font-medium mb-2">
+              <div className="font-medium mb-2 text-gray-800">
                 <span className="mr-2">{index + 1}.</span>
                 {question.description}
               </div>
@@ -112,8 +112,8 @@ function Results({ quizData, questions, userAnswers, onRestartQuiz }) {
               {/* Detailed Solution Section */}
               {question.detailed_solution && (
                 <div className="bg-gray-100 p-3 rounded-lg text-sm">
-                  <strong className="block mb-2">Detailed Solution:</strong>
-                  <div className="whitespace-pre-wrap">
+                  <strong className="block mb-2 text-gray-700">Detailed Solution:</strong>
+                  <div className="whitespace-pre-wrap text-gray-600">
                     {question.detailed_solution}
                   </div>
                 </div>
@@ -126,39 +126,33 @@ function Results({ quizData, questions, userAnswers, onRestartQuiz }) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen bg-[#0A192F] py-12 text-white">
       <div className="max-w-2xl mx-auto px-4">
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-[#1D2A38] rounded-lg shadow-md p-6">
           {/* Quiz Title and Details */}
           <div className="text-center mb-6">
-            <h1 className="text-3xl font-bold text-gray-800">
+            <h1 className="text-3xl font-bold text-cyan-400">
               {quizData.title || "Quiz Results"}
             </h1>
-            <p className="text-gray-600 mt-2">
+            <p className="text-gray-300 mt-2">
               Topic: {quizData.topic || "General"}
             </p>
           </div>
 
           {/* Results Summary */}
           <div className="mb-8">
-            <h2 className="text-2xl font-semibold mb-6">Quiz Results</h2>
+            <h2 className="text-2xl font-semibold mb-6 text-cyan-400">Quiz Results</h2>
             <div className="grid grid-cols-3 gap-4 text-center">
               <div className="bg-green-100 p-4 rounded-lg">
-                <p className="text-green-600 text-xl font-semibold">
-                  {stats.correct}
-                </p>
+                <p className="text-green-600 text-xl font-semibold">{stats.correct}</p>
                 <p className="text-green-600">Correct</p>
               </div>
               <div className="bg-red-100 p-4 rounded-lg">
-                <p className="text-red-600 text-xl font-semibold">
-                  {stats.incorrect}
-                </p>
+                <p className="text-red-600 text-xl font-semibold">{stats.incorrect}</p>
                 <p className="text-red-600">Incorrect</p>
               </div>
               <div className="bg-gray-100 p-4 rounded-lg">
-                <p className="text-gray-600 text-xl font-semibold">
-                  {stats.unattempted}
-                </p>
+                <p className="text-gray-600 text-xl font-semibold">{stats.unattempted}</p>
                 <p className="text-gray-600">Unattempted</p>
               </div>
             </div>
@@ -169,9 +163,8 @@ function Results({ quizData, questions, userAnswers, onRestartQuiz }) {
                   stats.incorrect * quizData.negative_marks}{" "}
                 /{questions.length * quizData.correct_answer_marks}
               </p>
-              <p className="text-sm text-gray-600 mt-2">
-                Correct: +{quizData.correct_answer_marks} | Incorrect: -
-                {quizData.negative_marks}
+              <p className="text-sm text-gray-400 mt-2">
+                Correct: +{quizData.correct_answer_marks} | Incorrect: -{quizData.negative_marks}
               </p>
             </div>
           </div>

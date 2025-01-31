@@ -8,7 +8,7 @@ function QuestionContainer() {
   return (
       
 
-    <div className='mt-5'>
+    <div >
 
       <Questions/>
 

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Header from '../Header/Header';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from "axios"
 function Login() {
@@ -9,10 +8,13 @@ function Login() {
 
   const handleSubmit=(e)=>{
     e.preventDefault();
-    axios.post("http://localhost:3000/login",{email,password})
+    axios.post("http://localhost:3000/login", 
+      { email, password },
+      { withCredentials: true }  // Add this line
+    )
     .then(result=>{
       console.log(result)
-      if(result.data==="Success")
+      if(result.data.message==="Success")
       {
         navigate("/home")
       }
