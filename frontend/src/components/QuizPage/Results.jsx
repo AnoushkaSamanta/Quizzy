@@ -114,7 +114,17 @@ function Results({ quizData, questions, userAnswers, onRestartQuiz }) {
                 <div className="bg-gray-100 p-3 rounded-lg text-sm">
                   <strong className="block mb-2 text-gray-700">Detailed Solution:</strong>
                   <div className="whitespace-pre-wrap text-gray-600">
-                    {question.detailed_solution}
+                  {question.detailed_solution && (
+  <div className="bg-gray-100 p-3 rounded-lg text-sm">
+    <strong className="block mb-2">Detailed Solution:</strong>
+    <div 
+      className="whitespace-pre-wrap"
+      dangerouslySetInnerHTML={{
+        __html: question.detailed_solution.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+      }}
+    />
+  </div>
+)}
                   </div>
                 </div>
               )}
