@@ -13,7 +13,6 @@ function SignUp() {
       .post("http://localhost:3000/signup", { fullname, email, password })
       .then((result) => {
         console.log(result)
-
         navigate("/home");
       })
       .catch((error) => console.log(error));

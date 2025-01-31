@@ -5,7 +5,7 @@ const bcrypt=require("bcrypt")
 const jwt=require("jsonwebtoken")
 const UserModel=require("./models/UserModel")
 const cookieParser = require("cookie-parser")
-
+const verifyToken=require("./middleware/verifyToken")
 const app=express();
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
@@ -32,10 +32,11 @@ app.post("/signup", (req, res) => {
             let token = jwt.sign({ email: email }, "SECRET_KEY");
             res.cookie("token", token, {
               httpOnly: true,
-              secure: process.env.NODE_ENV === "production",
-              sameSite: "lax",
-              maxAge: 24 * 60 * 60 * 1000,
-            });
+              secure: false, // Set to true in production
+              sameSite: 'strict', // or 'lax'
+              maxAge: 24 * 60 * 60 * 1000, // 24 hours
+              path: '/' // Ensure cookie is set for entire site
+          });
             res.json(users);
           })
           .catch((err) => res.json(err));
@@ -52,10 +53,11 @@ app.post("/signup", (req, res) => {
             let token = jwt.sign({ email: email }, "SECRET_KEY");
             res.cookie("token", token, {
               httpOnly: true,
-              secure: process.env.NODE_ENV === "production",
-              sameSite: "lax",
-              maxAge: 24 * 60 * 60 * 1000,
-            });
+              secure: false, // Set to true in production
+              sameSite: 'strict', // or 'lax'
+              maxAge: 24 * 60 * 60 * 1000, // 24 hours
+              path: '/' // Ensure cookie is set for entire site
+          });
             res.json("Success");
           } else {
             res.json("Incorrect Email or Password");
@@ -82,6 +84,20 @@ app.post("/signup", (req, res) => {
       domain: "localhost",
     });
     res.json({ success: true, message: "Logged out successfully" });
+  });
+
+  app.get("/user", verifyToken, (req, res) => {
+    const emailFromToken = req.user.email; // Access the decoded email from token
+    console.log(emailFromToken)
+    UserModel.findOne({ email: emailFromToken })
+      .then((user) => {
+        if (user) {
+          res.json(user); // Send user data to frontend
+        } else {
+          res.status(404).json({ message: "User not found" });
+        }
+      })
+      .catch((err) => res.status(500).json(err));
   });
 
 app.listen(3000,()=>{
