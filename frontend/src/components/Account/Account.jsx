@@ -34,8 +34,9 @@ function Account() {
       <Header />
       <div className="min-h-screen bg-[#0A192F] text-white flex flex-col items-center pt-20">
         <div className="bg-[#112240] p-8 rounded-lg shadow-lg w-96 text-center">
-          <h1 className="text-2xl font-bold text-cyan-400">Welcome, {userData.fullname}</h1>
+          <h1 className="text-2xl font-bold text-cyan-400">Welcome, {userData.fullname}!</h1>
           <p className="mt-2 text-gray-300">Email: {userData.email}</p>
+          <p>Joined on: {userData.createdAt.substring(0,10)}</p>
         </div>
       </div>
     </>

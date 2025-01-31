@@ -10,7 +10,7 @@ const app=express();
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-    origin: "http://localhost:5173", // Change this to your frontend URL
+    origin: "http://localhost:5173", 
     credentials: true
 }));
 
@@ -112,7 +112,8 @@ app.get("/user-data", verifyToken, (req, res) => {
       if (user) {
         res.json({ 
           email: user.email, 
-          fullname: user.fullname 
+          fullname: user.fullname ,
+          createdAt:user.createdAt
         });
       } else {
         res.status(404).json({ message: "User not found" });
