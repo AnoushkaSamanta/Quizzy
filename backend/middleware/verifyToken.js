@@ -7,16 +7,15 @@ function verifyToken(req, res, next) {
     return res.status(403).json({ message: "Access Denied. No token provided." });
   }
 
-  // Verify the token using the secret key
   jwt.verify(token, "SECRET_KEY", (err, decoded) => {
     if (err) {
       return res.status(401).json({ message: "Invalid or expired token" });
     }
 
-    // Attach the decoded email to the request object
+    // Attach the decoded email to the request 
     req.user = decoded;
     
-    next(); // Proceed to the next middleware or route handler
+    next(); 
   });
 }
 

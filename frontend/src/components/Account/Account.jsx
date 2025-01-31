@@ -9,6 +9,7 @@ function Account() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    //using axios to get user details from backend route /user-data
     axios
       .get("http://localhost:3000/user-data", { withCredentials: true })
       .then((response) => {
@@ -36,6 +37,7 @@ function Account() {
         <div className="bg-[#112240] p-8 rounded-lg shadow-lg w-96 text-center">
           <h1 className="text-2xl font-bold text-cyan-400">Welcome, {userData.fullname}!</h1>
           <p className="mt-2 text-gray-300">Email: {userData.email}</p>
+          {/* formatting date */}
           <p>Joined on: {userData.createdAt.substring(0,10)}</p>
         </div>
       </div>

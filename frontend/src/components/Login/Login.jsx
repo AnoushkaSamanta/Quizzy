@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from "axios"
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Import the CSS
+import 'react-toastify/dist/ReactToastify.css';
 
 function Login() {
   const[email,setEmail]=useState()
@@ -10,11 +10,13 @@ function Login() {
   const navigate=useNavigate()
 
   const handleSubmit=(e)=>{
+    //prevent default form submission
     e.preventDefault();
     axios.post("http://localhost:3000/login", 
       { email, password },
-      { withCredentials: true }  // Add this line
+      { withCredentials: true }  
     )
+    //successful login
     .then(result=>{
       console.log(result)
       if(result.data.message==="Success")
@@ -23,6 +25,7 @@ function Login() {
         navigate("/home")
       }
     })
+    //login failed-error handling
     .catch(error=>{console.log(error)
       toast.error("Login failed! Please check your credentials.");
     })

@@ -8,12 +8,15 @@ function Questions() {
   const [userAnswers, setUserAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
   const [data, setData] = useState([]);
-  const [timeLeft, setTimeLeft] = useState(15 * 60); // 15 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(15 * 60); 
 
+  //questions fetched once page is loaded
   useEffect(() => {
     fetchQuestions();
   }, []);
 
+
+  //timer of 15 minutes
   useEffect(() => {
     const timerId = setInterval(() => {
       setTimeLeft((prevTime) => {
@@ -31,6 +34,8 @@ function Questions() {
 
   const fetchQuestions = async () => {
     try {
+
+      //questions fetched from api
       const response = await fetch("/api/Uw5CrX");
       const data = await response.json();
       setData(data);
@@ -40,6 +45,7 @@ function Questions() {
     }
   };
 
+  //navigation buttons functionality
   const handleNext = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex((prev) => prev + 1);
@@ -52,6 +58,8 @@ function Questions() {
     }
   };
 
+
+  //user answers set and updated
   const handleAnswerSelect = (optionIndex) => {
     setUserAnswers((prev) => ({
       ...prev,
@@ -59,12 +67,15 @@ function Questions() {
     }));
   };
 
+  //on submission result is shown
   const handleSubmit = () => {
     if (!showResults) {
       setShowResults(true);
     }
   };
 
+
+  //to restart quiz
   const handleRestartQuiz = () => {
     setShowResults(false);
     setCurrentQuestionIndex(0);
@@ -72,6 +83,8 @@ function Questions() {
     setTimeLeft(15 * 60); // Reset the timer
   };
 
+
+  //if no questions fetched yet
   if (questions.length === 0) {
     return (
       <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -80,6 +93,8 @@ function Questions() {
     );
   }
 
+
+  //results shown here if showResults is true
   if (showResults) {
     return (
       <Results
@@ -97,6 +112,8 @@ function Questions() {
   const seconds = timeLeft % 60;
   const progressPercentage = ((currentQuestionIndex + 1) / questions.length) * 100;
 
+
+  //questions displayed
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-2xl mx-auto px-6 bg-white rounded-lg shadow-lg p-8 border border-gray-200">

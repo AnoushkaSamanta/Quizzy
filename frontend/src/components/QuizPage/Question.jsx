@@ -1,11 +1,16 @@
 import React from "react";
 
+//Question component displays a single question
 function Question({ index, question, selectedAnswer, onAnswerSelect }) {
   return (
     <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-200 transition-all hover:shadow-xl">
-      <h2 className="text-2xl font-bold text-blue-600 mb-4">Question {index}</h2>
+      {/* Question number */}
+      <h2 className="text-2xl font-bold text-blue-600 mb-4">
+        Question {index}
+      </h2>
+      {/* Question Description */}
       <p className="text-lg mb-6 text-gray-800">{question.description}</p>
-
+      {/* List of options */}
       <div className="space-y-3">
         {question.options.map((option, optionIndex) => (
           <div

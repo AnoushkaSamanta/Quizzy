@@ -12,13 +12,15 @@ function Results({ quizData, questions, userAnswers, onRestartQuiz }) {
     new Array(questions.length).fill(null)
   );
 
+
+  //giving messages based on quiz performance
   const triggerToaster = (score) => {
     let message = "";
-    if (score >= 80) {
+    if (score >= 35) {
       message = "Excellent!";
-    } else if (score >= 60) {
+    } else if (score >= 25) {
       message = "Good!";
-    } else if (score >= 40) {
+    } else if (score >= 15) {
       message = "Can do better!";
     } else {
       message = "Needs Improvement!";
@@ -43,6 +45,8 @@ function Results({ quizData, questions, userAnswers, onRestartQuiz }) {
   const [showDetailedReview, setShowDetailedReview] = useState(false);
 
   useEffect(() => {
+
+    //calculating score and number of correct,incorrect and unattempted questions here
     let correct = 0;
     let incorrect = 0;
     let unattempted = 0;
@@ -71,12 +75,15 @@ function Results({ quizData, questions, userAnswers, onRestartQuiz }) {
     setStats({ correct, incorrect, unattempted });
     setCorrectAnswers(newCorrectAnswers);
 
+    //final score calculated
     const finalScore =
       correct * quizData.correct_answer_marks -
       incorrect * quizData.negative_marks;
     triggerToaster(finalScore);
   }, [questions, userAnswers]);
 
+
+  //user answer status -correct,incorrect ,unattempted
   const getQuestionStatus = (index) => {
     if (userAnswers[index] === undefined) return "unattempted";
     return correctAnswers[index] !== null ? "correct" : "incorrect";
@@ -88,9 +95,11 @@ function Results({ quizData, questions, userAnswers, onRestartQuiz }) {
         <h3 className="text-xl font-semibold mb-4 text-cyan-400">
           Quiz Detailed Review
         </h3>
+
         {questions.map((question, index) => {
           const status = getQuestionStatus(index);
           const correctAns = question.options.findIndex(
+            //finding correct answer
             (option) => option.is_correct
           );
 
@@ -128,6 +137,7 @@ function Results({ quizData, questions, userAnswers, onRestartQuiz }) {
                       {option.text}
                       {optIndex === correctAns && (
                         <span className="ml-2 text-green-600 font-semibold">
+                          {/* Correct Option Displayed */}
                           (Correct Answer)
                           {" " + (quizAnswers[index] + 1)}
                         </span>
@@ -135,6 +145,7 @@ function Results({ quizData, questions, userAnswers, onRestartQuiz }) {
                       {status === "incorrect" &&
                         optIndex === userAnswers[index] && (
                           <span className="ml-2 text-red-600 font-semibold">
+                            {/* User Option Displayed */}
                             (Your Answer)
                             {" " + userAnswers[index]}
                           </span>
@@ -218,6 +229,7 @@ function Results({ quizData, questions, userAnswers, onRestartQuiz }) {
             <div className="text-center mt-4">
               <p className="text-lg">
                 <strong>Final Score:</strong>{" "}
+                {/* Calculating total score */}
                 {stats.correct * quizData.correct_answer_marks -
                   stats.incorrect * quizData.negative_marks}{" "}
                 /{questions.length * quizData.correct_answer_marks}

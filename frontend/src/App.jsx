@@ -1,6 +1,3 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import Home from './components/Home/Home'
 import Login from './components/Login/Login'
@@ -24,6 +21,8 @@ function App() {
 <Route path="/about" element={<About/>}/>
 <Route path="/account" element={<Account/>}/>
 </Routes>
+
+{/* for react toasts */}
 <ToastContainer 
         position="top-right"
         autoClose={5000}
