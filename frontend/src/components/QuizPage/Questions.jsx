@@ -210,6 +210,7 @@ function Questions() {
   if (showResults) {
     return (
       <Results
+        quizData={data}
         questions={questions}
         userAnswers={userAnswers}
         onRestartQuiz={handleRestartQuiz}

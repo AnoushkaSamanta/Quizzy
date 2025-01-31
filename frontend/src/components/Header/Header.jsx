@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from "axios"
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 function Header() {
   const navigate=useNavigate()
@@ -22,12 +22,15 @@ function Header() {
       <nav className="w-full flex justify-between px-5 py-3">
         <h3 className="text-2xl text-blue-400 font-semibold">Quizzy</h3>
         <div className="flex gap-5">
-          <a href="" className="text-zinc-600 font-semibold">
+        <NavLink to="/home" className="text-zinc-600 font-semibold">
+            Home
+          </NavLink>
+          <NavLink to="/account" className="text-zinc-600 font-semibold">
             My Account
-          </a>
-          <a href="" className="text-zinc-600 font-semibold">
+          </NavLink>
+          <NavLink to="/about" className="text-zinc-600 font-semibold">
             About Us
-          </a>
+          </NavLink>
           <div className="px-2 py-1 bg-red-500 rounded-md" style={{cursor:"pointer"}} onClick={handleLogout}>
   <span className="text-white">Logout</span>
 </div>
