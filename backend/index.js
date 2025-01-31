@@ -1,17 +1,15 @@
 const express = require("express");
-
+require('dotenv').config();
 const mongoose = require("mongoose");
-
 const cors = require("cors");
-
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-
-const UserModel = require("./models/UserModel");
-
 const cookieParser = require("cookie-parser");
 
+const UserModel = require("./models/UserModel");
 const verifyToken = require("./middleware/verifyToken");
+const generateToken = require("./middleware/generateToken");
+
+// Importing bcrypt utility functions
+const { hashPassword, comparePasswords } = require("./utilities/bcryptUtil");
 
 const app = express();
 
@@ -26,87 +24,85 @@ app.use(
 
 app.use(cookieParser());
 
-//database connection
+// database connection
 mongoose.connect("mongodb://127.0.0.1:27017/quizzy");
 
-//signup
-app.post("/signup", (req, res) => {
+// signup
+app.post("/signup", async (req, res) => {
   let { fullname, email, password } = req.body;
-  //hashing password using bcrypt
-  bcrypt.genSalt(10, (err, salt) => {
-    bcrypt.hash(password, salt, (err, hash) => {
-      //creating new user
-      UserModel.create({
-        fullname,
-        email,
-        password: hash,
-      })
-        .then((users) => {
-          //generating token using jsonwebtoken
-          let token = jwt.sign({ email: email }, "SECRET_KEY");
 
-          //settin cookie
-          res.cookie("token", token, {
-            httpOnly: true,
-            secure: false,
-            sameSite: "lax",
-            maxAge: 24 * 60 * 60 * 1000, // 24 hours
-            path: "/", // Ensure cookie is set for entire site
-          });
+  try {
+    // Hashing password using bcrypt utility
+    const hashedPassword = await hashPassword(password);
 
-          res.json(users);
-        })
-        .catch((err) => res.json(err));
+    // Creating new user
+    const newUser = await UserModel.create({
+      fullname,
+      email,
+      password: hashedPassword,
     });
-  });
+
+    // Generating token using generateToken function
+    let token = generateToken(email);
+
+    // Setting cookie
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      path: "/",
+    });
+
+    res.json(newUser);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
-//login
-app.post("/login", (req, res) => {
+// login
+app.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
-  //searching for user on the basis of email
-  UserModel.findOne({ email: email })
-    .then((user) => {
-      if (user) {
-        bcrypt.compare(password, user.password, function (err, result) {
-          if (result) {
-            // Add expiration to token
-            let token = jwt.sign({ email: email }, "SECRET_KEY", {
-              expiresIn: "24h",
-            });
+  try {
+    // Searching for user based on email
+    const user = await UserModel.findOne({ email: email });
+    if (user) {
+      // Comparing password using bcrypt utility
+      const isPasswordCorrect = await comparePasswords(password, user.password);
 
-            //setting cookie
-            res.cookie("token", token, {
-              httpOnly: true,
-              secure: process.env.NODE_ENV === "production",
-              sameSite: "lax",
-              maxAge: 24 * 60 * 60 * 1000, // 24 hours
-              path: "/",
-            });
+      if (isPasswordCorrect) {
+        // Generating token using generateToken function
+        let token = generateToken(email);
 
-            res.json({
-              message: "Success",
-              user: {
-                email: user.email,
-                fullname: user.fullname,
-              },
-            });
-          } else {
-            res.status(401).json({ message: "Incorrect Email or Password" });
-          }
+        // Setting cookie
+        res.cookie("token", token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "lax",
+          maxAge: 24 * 60 * 60 * 1000, // 24 hours
+          path: "/",
+        });
+
+        res.json({
+          message: "Success",
+          user: {
+            email: user.email,
+            fullname: user.fullname,
+          },
         });
       } else {
-        res.status(404).json({ message: "User doesn't exist" });
+        res.status(401).json({ message: "Incorrect Email or Password" });
       }
-    })
-    .catch((error) => {
-      res.status(500).json({ message: "Server error", error: error });
-    });
+    } else {
+      res.status(404).json({ message: "User doesn't exist" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error });
+  }
 });
 
-
-//logout
+// logout
 app.post("/logout", (req, res) => {
   res.cookie("token", "", {
     httpOnly: true,
@@ -124,7 +120,7 @@ app.post("/logout", (req, res) => {
   res.json({ success: true, message: "Logged out successfully" });
 });
 
-//sending user details for account page
+// Sending user details for account page
 app.get("/user-data", verifyToken, (req, res) => {
   UserModel.findOne({ email: req.user.email })
     .then((user) => {
@@ -141,6 +137,7 @@ app.get("/user-data", verifyToken, (req, res) => {
     .catch((err) => res.status(500).json({ message: "Server error" }));
 });
 
-app.listen(3000, () => {
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
   console.log("Server running");
 });

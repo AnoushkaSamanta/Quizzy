@@ -17,7 +17,7 @@ function SignUp() {
       //account creation successful
       .then((result) => {
         toast.success("Account created successfully!");
-        navigate("/home");
+        navigate("/login");
       })
       //error handling
       .catch((error) => {console.log(error)
