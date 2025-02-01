@@ -6,7 +6,7 @@ const cookieParser = require("cookie-parser");
 
 const UserModel = require("./models/UserModel");
 const verifyToken = require("./middleware/verifyToken");
-const generateToken = require("./middleware/generateToken");
+const generateToken = require("./utilities/generateToken");
 
 // Importing bcrypt utility functions
 const { hashPassword, comparePasswords } = require("./utilities/bcryptUtil");
