@@ -44,6 +44,10 @@ Other technologies: bcrypt, jsonwebtoken, cookie-parser, React Router DOM, local
 
 
 
+
+https://github.com/user-attachments/assets/2b8cd7e7-0dcb-4538-b9dd-6b01ebddbae0
+
+
 ### SignUp Page
 
 ![image](https://github.com/user-attachments/assets/d5ba5fc8-bcfd-4db9-be51-fac3ca566e88)
