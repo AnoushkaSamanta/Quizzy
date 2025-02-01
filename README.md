@@ -30,10 +30,14 @@ Database-MongoDB
 
 Authentication-bcrypt,jsonwebtoken
 
-## Additional Tech-Stack
+## Additional Features
 •Used react toastify for messages
+
 •Fetched questions from api https://api.jsonserve.com/Uw5CrX.
- 
+
+•Protected account route
+
+•Automatic quiz submission once time is up
 
 
 ## Live Demo
