@@ -26,9 +26,9 @@ FrontEnd: HTML, CSS, Tailwind CSS, Javascript, React.js
 
 BackEnd: Node.js, Express.js
 
-Database:MongoDB
+Database: MongoDB
 
-Other technologies: bcrypt, jsonwebtoken, cookie-parser, React Router DOM, localstorage, mongoose, dotenv, react-toastify
+Packages: bcrypt, jsonwebtoken, cookie-parser, React Router DOM, localstorage, mongoose, dotenv, react-toastify
 
 ## Additional Features
 •Used react toastify for messages
