@@ -13,9 +13,7 @@ function About() {
             knowledge and help you learn in a fun way! Track your progress, and explore exciting quizzes across various topics.
           </p>
         </div>
-        <p className="mt-10 text-gray-400 text-sm">
-          Built with ❤️ by Anoushka...
-        </p>
+
       </div>
     </>
   );
