@@ -30,6 +30,11 @@ Database-MongoDB
 
 Authentication-bcrypt,jsonwebtoken
 
+## Additional Tech-Stack
+•Used react toastify for messages
+•Fetched questions from api https://api.jsonserve.com/Uw5CrX.
+ 
+
 
 ## Live Demo
 
@@ -82,12 +87,97 @@ These instructions will help you set up and run Quizzy locally.
 ### Prerequisites
 
 Before cloning and setting up the project, ensure you have the following installed:
+
 1)Node.js (v14.x or above) - Download Node.js
 
 2)npm (Node package manager) - This is included with Node.js, but ensure it's installed by running the following:
 
 
 ![image](https://github.com/user-attachments/assets/e961375d-3a83-4443-85d3-4a2b1de0ae63)
+
+
+### Clone the Repository
+
+git clone https://github.com/AnoushkaSamanta/Quizzy.git
+
+
+### Set up Backend
+1.Navigate to backend directory
+
+
+![image](https://github.com/user-attachments/assets/6aa801c8-78b1-42dc-9784-9e348d41d7e8)
+
+2.Install Backend dependencies
+
+![image](https://github.com/user-attachments/assets/114a85b6-be1c-4a96-87e6-6a1a40f6d658)
+
+
+3.Create .env file for backend and create JWT_SECRET and PORT environment variables
+
+For example:
+
+![image](https://github.com/user-attachments/assets/db5be84d-976b-4fe0-bf6f-047e343507f4)
+
+4.Connect to MongoDB compass,create a database named quizzy and paste the connection string like this in index.js
+
+![image](https://github.com/user-attachments/assets/1808f78f-7d56-48d8-a464-feb4db447f71)
+
+5.Run the server using
+
+![image](https://github.com/user-attachments/assets/d1adaafe-5b0c-4198-950a-efc1cee84d4b)
+
+
+![image](https://github.com/user-attachments/assets/547db8e7-f296-432e-93fa-5c3f4e26ee39)
+
+
+
+npx nodemon index.js
+
+Before that ensure you have nodemon,express,cookie-parser,bcrypt,mongoose,jsonwebtoken,dotenv and cors installed!
+
+![image](https://github.com/user-attachments/assets/2820e630-bfd5-437b-8b2e-cefc8dee9720)
+
+
+### Set up FrontEnd
+
+1.Navigate to the Frontend Directory
+
+![image](https://github.com/user-attachments/assets/b763ab19-ad65-420b-a37e-a20f2bea0f63)
+
+2.Install Frontend Dependencies
+
+![image](https://github.com/user-attachments/assets/c5ddc51f-0d64-462e-a1f3-b1eb7c49a9b5)
+
+3.Start the Frontend Server.
+
+![image](https://github.com/user-attachments/assets/5009296c-7e7e-40ba-b6ce-3640f13c8d3b)
+
+
+The frontend should now be running on http://localhost:5173.
+If not copy the frontend URL and paste it index.js in the origin of CORS.
+
+![image](https://github.com/user-attachments/assets/db148d7d-e1f1-4ad7-b9e0-7d5abbb7dcbe)
+
+
+
+To use react-toastify, install React Toastify:
+
+
+![image](https://github.com/user-attachments/assets/be68d300-c206-4158-9eae-18854b7a11b0)
+
+
+
+### That's right! 🎉 Now that everything is set up, you're ready to start quizzing! 😄 You can sign up, log in, and enjoy.
+## Happy quizzing!
+
+
+
+
+
+
+
+
+
 
 
 
