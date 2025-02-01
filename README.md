@@ -42,6 +42,8 @@ Authentication-bcrypt,jsonwebtoken
 
 ## Live Demo
 
+
+
 ### SignUp Page
 
 ![image](https://github.com/user-attachments/assets/d5ba5fc8-bcfd-4db9-be51-fac3ca566e88)
