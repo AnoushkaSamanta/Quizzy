@@ -22,13 +22,13 @@ Welcome to Quizzy, an exciting and interactive platform where users can challeng
 
 
 ## Tech-Stack
-FrontEnd-HTML,CSS,Tailwind CSS,Javascript,React.js,localstorage,axios,React Router DOM
+FrontEnd: HTML, CSS, Tailwind CSS, Javascript, React.js
 
-BackEnd-Node.js,Express.js
+BackEnd: Node.js, Express.js
 
-Database-MongoDB
+Database:MongoDB
 
-Authentication-bcrypt,jsonwebtoken
+Other technologies: bcrypt, jsonwebtoken, cookie-parser, React Router DOM, localstorage, mongoose, dotenv, react-toastify
 
 ## Additional Features
 •Used react toastify for messages
@@ -130,18 +130,8 @@ For example:
 
 5.Run the server using
 
-![image](https://github.com/user-attachments/assets/d1adaafe-5b0c-4198-950a-efc1cee84d4b)
-
 
 ![image](https://github.com/user-attachments/assets/547db8e7-f296-432e-93fa-5c3f4e26ee39)
-
-
-
-npx nodemon index.js
-
-Before that ensure you have nodemon,express,cookie-parser,bcrypt,mongoose,jsonwebtoken,dotenv and cors installed!
-
-![image](https://github.com/user-attachments/assets/2820e630-bfd5-437b-8b2e-cefc8dee9720)
 
 
 ### Set up FrontEnd
@@ -163,13 +153,6 @@ The frontend should now be running on http://localhost:5173.
 If not copy the frontend URL and paste it index.js in the origin of CORS.
 
 ![image](https://github.com/user-attachments/assets/db148d7d-e1f1-4ad7-b9e0-7d5abbb7dcbe)
-
-
-
-To use react-toastify, install React Toastify:
-
-
-![image](https://github.com/user-attachments/assets/be68d300-c206-4158-9eae-18854b7a11b0)
 
 
 
