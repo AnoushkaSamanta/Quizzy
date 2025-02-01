@@ -15,10 +15,7 @@ const UserSchema = new mongoose.Schema({
     required: true,
     minlength: 6, 
   },
-  points: {
-    type: Number,
-    default: 0, 
-  },
+
   createdAt: {
     type: Date,
     default: Date.now,
